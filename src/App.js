@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import Users from "./components/users/Users";
+import {useState} from "react";
+import {getCommentUsers} from "./servises/user.api.service";
 
 function App() {
+
+  const [comments, setComments] =useState([])
+
+    const elevate=(id)=>{
+        getCommentUsers(id).then(({data}) => setComments([...data]));
+    };
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h2>comments of chosen post</h2>
+        {comments.map(value => <div>{value.body}</div>)}
+        <div><Users elevate={elevate}/></div>
+
     </div>
   );
 }
